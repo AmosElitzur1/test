@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-config-apps
+  namespace: argocd
+  labels:
+    name: app-of-apps
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+  project: default
+  source:
+    repoURL: https://github.com/ReadTheory/argo-apps.git
+    targetRevision: HEAD  
+    path: cluster-config-apps 
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  revisionHistoryLimit: 10

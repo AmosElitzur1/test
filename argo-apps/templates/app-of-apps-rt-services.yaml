@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rt-services-apps
+  namespace: argocd
+  labels:
+    name: rt-services-apps
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+  project: default
+  source:
+    repoURL: https://github.com/ReadTheory/argo-apps.git
+    targetRevision: HEAD  
+    path: {{ .Values.environment }} 
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  revisionHistoryLimit: 10
